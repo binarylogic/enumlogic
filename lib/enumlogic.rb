@@ -1,28 +1,24 @@
 require "activerecord"
 
+# See the enum class level method for more info.
 module Enumlogic
-  # enum_field encapsulates a validates_inclusion_of and automatically gives you a 
-  # few more goodies automatically.
-  # 
-  #     class Computer < ActiveRecord:Base
-  #       enum_field :status, ['on', 'off', 'standby', 'sleep', 'out of this world']
-  # 
-  #       # Optionally with a message to replace the default one
-  #       # enum_field :status, ['on', 'off', 'standby', 'sleep'], :message => "incorrect status"
-  # 
-  #       #...
-  #     end
-  # 
-  # This will give you a few things:
-  # 
-  # - add a validates_inclusion_of with a simple error message ("invalid #{field}") or your custom message
-  # - define the following query methods, in the name of expressive code:
-  #   - on?
-  #   - off?
-  #   - standby?
-  #   - sleep?
-  #   - out_of_this_world?
-  # - define the STATUSES constant, which contains the acceptable values
+  # Allows you to easily specify enumerations for your models. Specify enumerations like:
+  #
+  #   class Computer < ActiveRecord::Base
+  #     enum :kind, ["apple", "dell", "hp"]
+  #     enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
+  #   end
+  #
+  # You can now do the following:
+  #
+  #   Computer::KINDS # passes back exactly what you specified, Array or Hash
+  #   Computer.kind_options # gives you a friendly hash that you can easily pass into the select helper for forms
+  #   Computer.new(:kind => "unknown").valid? # false, automatically validates inclusion of the enum field
+  #   
+  #   c = Computer.new(:kind => "apple")
+  #   c.apple? # true
+  #   c.apple_key # :apple
+  #   c.apple_text # "apple" or "Apple" if you gave a hash with a user friendly text value
   def enum(field, values, options = {})
     values_hash = if values.is_a?(Array)
       hash = {}

@@ -39,11 +39,15 @@ module Enumlogic
     (class << self; self; end).send(:define_method, "#{field}_options") { new_hash }
     
     define_method("#{field}_key") do
-      send(field).to_s.gsub(/[-\s]/, '_').downcase.to_sym
+      value = send(field)
+      return nil if value.nil?
+      value.to_s.gsub(/[-\s]/, '_').downcase.to_sym
     end
     
     define_method("#{field}_text") do
-      values_hash.find { |key, text| key == send(field) }.last
+      value = send(field)
+      return nil if value.nil?
+      values_hash.find { |key, text| key == value }.last
     end
     
     values_array.each do |value|
@@ -54,7 +58,7 @@ module Enumlogic
       end
     end
 
-    validates_inclusion_of field, :in => values_array, :message => message
+    validates_inclusion_of field, :in => values_array, :message => message, :allow_nil => options[:allow_nil]
   end
 end
 

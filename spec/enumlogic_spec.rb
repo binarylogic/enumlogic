@@ -69,4 +69,10 @@ describe "Enumlogic" do
     c.should_not be_valid
     c.errors[:kind].should include("kind is not included in the list")
   end
+  
+  it "should allow nil during validations" do
+    Computer.enum :kind, ["apple", "dell", "hp"], :allow_nil => true
+    c = Computer.new
+    c.should be_valid
+  end
 end

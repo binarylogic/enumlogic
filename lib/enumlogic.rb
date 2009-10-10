@@ -19,6 +19,7 @@ module Enumlogic
   #   c.apple? # true
   #   c.kind_key # :apple
   #   c.kind_text # "apple" or "Apple" if you gave a hash with a user friendly text value
+  #   c.enum?(:kind) # true
   def enum(field, values, options = {})
     values_hash = if values.is_a?(Array)
       hash = {}
@@ -36,6 +37,12 @@ module Enumlogic
     new_hash = {}
     values_hash.each { |key, text| new_hash[text] = key }
     (class << self; self; end).send(:define_method, "#{field}_options") { new_hash }
+    
+    unless method_defined?('enum?')
+      define_method('enum?') do |name|
+        self.class.method_defined?("#{name}_key")
+      end
+    end
     
     define_method("#{field}_key") do
       value = send(field)

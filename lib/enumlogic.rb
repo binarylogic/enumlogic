@@ -30,7 +30,6 @@ module Enumlogic
     
     values_array = values.is_a?(Hash) ? values.keys : values
     
-    message = options[:message] || "#{field} is not included in the list"
     constant_name = options[:constant] || field.to_s.pluralize.upcase
     const_set constant_name, values_array unless const_defined?(constant_name)
     
@@ -58,7 +57,7 @@ module Enumlogic
       end
     end
 
-    validates_inclusion_of field, :in => values_array, :message => message, :allow_nil => options[:allow_nil]
+    validates_inclusion_of field, :in => values_array, :message => options[:message], :allow_nil => options[:allow_nil]
   end
 end
 

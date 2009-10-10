@@ -67,7 +67,7 @@ describe "Enumlogic" do
     c = Computer.new
     c.kind = "blah"
     c.should_not be_valid
-    c.errors[:kind].should include("kind is not included in the list")
+    c.errors[:kind].should include("is not included in the list")
   end
   
   it "should allow nil during validations" do

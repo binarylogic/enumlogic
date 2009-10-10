@@ -67,5 +67,3 @@ module Enumlogic
     validates_inclusion_of field, :in => values_array, :message => options[:message], :allow_nil => options[:allow_nil]
   end
 end
-
-ActiveRecord::Base.extend Enumlogic

@@ -3,7 +3,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'spec'
 require 'spec/autorun'
 require 'rubygems'
-require 'enumlogic'
+require 'active_record'
+require "#{File.dirname(__FILE__)}/../init"
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 ActiveRecord::Base.configurations = true

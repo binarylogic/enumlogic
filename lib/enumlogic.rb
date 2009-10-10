@@ -11,7 +11,7 @@ module Enumlogic
   #
   # You can now do the following:
   #
-  #   Computer::KINDS # passes back exactly what you specified, Array or Hash
+  #   Computer::KINDS # passes back the defined enum keys as array
   #   Computer.kind_options # gives you a friendly hash that you can easily pass into the select helper for forms
   #   Computer.new(:kind => "unknown").valid? # false, automatically validates inclusion of the enum field
   #   

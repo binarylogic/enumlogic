@@ -49,6 +49,12 @@ describe "Enumlogic" do
     c = Computer.new(:kind => "hp")
     c.kind_text.should == "HP"
   end
+
+  it "should create text method which results nil for wrong key" do
+    Computer.enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
+    c = Computer.new :kind => 'ibm'
+    c.kind_text.should == nil
+  end
   
   it "should create boolean methods" do
     Computer.enum :kind, ["apple", "dell", "hp"]

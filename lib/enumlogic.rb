@@ -47,7 +47,7 @@ module Enumlogic
     define_method("#{field}_text") do
       value = send(field)
       return nil if value.nil?
-      values_hash.find { |key, text| key == value }.last
+      values_hash[value]
     end
     
     values_array.each do |value|

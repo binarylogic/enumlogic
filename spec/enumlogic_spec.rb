@@ -76,11 +76,14 @@ describe "Enumlogic" do
     c.should be_valid
   end
   
-  it "should check for defined enums" do
+  it "should find a defined enum" do
     Computer.enum :kind, ["apple", "dell", "hp"]
-    c = Computer.new
     
-    c.enum?(:kind).should == true
-    c.enum?(:some_other_field).should == false
+    Computer.enum?(:kind).should == true
+    Computer.enum?(:some_other_field).should == false
+  end
+  
+  it "should check for defined enums if there isn't any" do
+    Computer.enum?(:kind).should == false
   end
 end

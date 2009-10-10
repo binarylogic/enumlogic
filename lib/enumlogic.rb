@@ -38,12 +38,6 @@ module Enumlogic
     values_hash.each { |key, text| new_hash[text] = key }
     (class << self; self; end).send(:define_method, "#{field}_options") { new_hash }
     
-    unless method_defined?('enum?')
-      define_method('enum?') do |name|
-        self.class.method_defined?("#{name}_key")
-      end
-    end
-    
     define_method("#{field}_key") do
       value = send(field)
       return nil if value.nil?
@@ -65,5 +59,9 @@ module Enumlogic
     end
 
     validates_inclusion_of field, :in => values_array, :message => options[:message], :allow_nil => options[:allow_nil]
+  end
+
+  def enum?(name)
+    method_defined?("#{name}_key")
   end
 end

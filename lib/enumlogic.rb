@@ -17,8 +17,8 @@ module Enumlogic
   #   
   #   c = Computer.new(:kind => "apple")
   #   c.apple? # true
-  #   c.apple_key # :apple
-  #   c.apple_text # "apple" or "Apple" if you gave a hash with a user friendly text value
+  #   c.kind_key # :apple
+  #   c.kind_text # "apple" or "Apple" if you gave a hash with a user friendly text value
   def enum(field, values, options = {})
     values_hash = if values.is_a?(Array)
       hash = {}

@@ -49,6 +49,12 @@ describe "Enumlogic" do
     c = Computer.new(:kind => "hp")
     c.kind_text.should == "HP"
   end
+
+  it "should create text method which results nil for wrong key" do
+    Computer.enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
+    c = Computer.new :kind => 'ibm'
+    c.kind_text.should == nil
+  end
   
   it "should create boolean methods" do
     Computer.enum :kind, ["apple", "dell", "hp"]
@@ -67,7 +73,7 @@ describe "Enumlogic" do
     c = Computer.new
     c.kind = "blah"
     c.should_not be_valid
-    c.errors[:kind].should include("kind is not included in the list")
+    c.errors[:kind].should include("is not included in the list")
   end
   
   it "should allow nil during validations" do
@@ -86,5 +92,16 @@ describe "Enumlogic" do
     Computer.enum :kind, ["apple", "dell", "hp", "custom made"]
     c = Computer.new(:kind => "custom made")
     c.should be_valid
+  end
+  
+  it "should find a defined enum" do
+    Computer.enum :kind, ["apple", "dell", "hp"]
+    
+    Computer.enum?(:kind).should == true
+    Computer.enum?(:some_other_field).should == false
+  end
+  
+  it "should check for defined enums if there isn't any" do
+    Computer.enum?(:kind).should == false
   end
 end

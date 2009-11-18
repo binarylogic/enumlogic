@@ -11,14 +11,15 @@ module Enumlogic
   #
   # You can now do the following:
   #
-  #   Computer::KINDS # passes back exactly what you specified, Array or Hash
+  #   Computer::KINDS # passes back the defined enum keys as array
   #   Computer.kind_options # gives you a friendly hash that you can easily pass into the select helper for forms
   #   Computer.new(:kind => "unknown").valid? # false, automatically validates inclusion of the enum field
   #   
   #   c = Computer.new(:kind => "apple")
   #   c.apple? # true
-  #   c.apple_key # :apple
-  #   c.apple_text # "apple" or "Apple" if you gave a hash with a user friendly text value
+  #   c.kind_key # :apple
+  #   c.kind_text # "apple" or "Apple" if you gave a hash with a user friendly text value
+  #   c.enum?(:kind) # true
   def enum(field, values, options = {})
     values_hash = if values.is_a?(Array)
       hash = {}
@@ -30,7 +31,6 @@ module Enumlogic
     
     values_array = values.is_a?(Hash) ? values.keys : values
     
-    message = options[:message] || "#{field} is not included in the list"
     constant_name = options[:constant] || field.to_s.pluralize.upcase
     const_set constant_name, values_array unless const_defined?(constant_name)
     
@@ -47,7 +47,7 @@ module Enumlogic
     define_method("#{field}_text") do
       value = send(field)
       return nil if value.nil?
-      values_hash.find { |key, text| key == value }.last
+      values_hash[value]
     end
     
     values_array.each do |value|
@@ -58,8 +58,10 @@ module Enumlogic
       end
     end
 
-    validates_inclusion_of field, :in => values_array, :message => message, :allow_nil => options[:allow_nil], :if => options[:if]
+    validates_inclusion_of field, :in => values_array, :message => options[:message], :allow_nil => options[:allow_nil], :if => options[:if]
+  end
+
+  def enum?(name)
+    method_defined?("#{name}_key")
   end
 end
-
-ActiveRecord::Base.extend Enumlogic

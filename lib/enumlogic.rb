@@ -58,7 +58,7 @@ module Enumlogic
       end
     end
 
-    validates_inclusion_of field, :in => values_array, :message => message, :allow_nil => options[:allow_nil]
+    validates_inclusion_of field, :in => values_array, :message => message, :allow_nil => options[:allow_nil], :if => options[:if]
   end
 end
 

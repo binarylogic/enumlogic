@@ -5,7 +5,7 @@ require 'spec/autorun'
 require 'rubygems'
 require 'enumlogic'
 
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :dbfile => ":memory:")
+ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 ActiveRecord::Base.configurations = true
 
 ActiveRecord::Schema.verbose = false
@@ -18,6 +18,10 @@ end
 Spec::Runner.configure do |config|
   config.before(:each) do
     class Computer < ActiveRecord::Base
+      private
+        def return_false
+          false
+        end
     end
   end
   

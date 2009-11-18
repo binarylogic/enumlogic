@@ -75,4 +75,16 @@ describe "Enumlogic" do
     c = Computer.new
     c.should be_valid
   end
+  
+  it "should implement the if option during validation" do
+    Computer.enum :kind, ["apple", "dell", "hp"], :if => :return_false
+    c = Computer.new
+    c.should be_valid
+  end
+  
+  it "should be included in the list" do
+    Computer.enum :kind, ["apple", "dell", "hp", "custom made"]
+    c = Computer.new(:kind => "custom made")
+    c.should be_valid
+  end
 end

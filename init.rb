@@ -1,3 +1,1 @@
-require 'enumlogic'
-
-ActiveRecord::Base.extend(Enumlogic)
+require File.dirname(__FILE__) + "/rails/init.rb"

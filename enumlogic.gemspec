@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{enumlogic}
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["binarylogic"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "enumlogic.gemspec",
      "init.rb",
      "lib/enumlogic.rb",
+     "rails/init.rb",
      "spec/enumlogic_spec.rb",
      "spec/spec_helper.rb"
   ]

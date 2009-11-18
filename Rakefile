@@ -13,6 +13,7 @@ begin
     gem.rubyforge_project = "enumlogic"
     gem.add_development_dependency "rspec"
   end
+  Jeweler::GemcutterTasks.new
   Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"

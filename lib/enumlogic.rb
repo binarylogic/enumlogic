@@ -65,3 +65,5 @@ module Enumlogic
     method_defined?("#{name}_key")
   end
 end
+
+ActiveRecord::Base.extend(Enumlogic)

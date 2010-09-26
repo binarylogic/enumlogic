@@ -34,9 +34,10 @@ module Enumlogic
     constant_name = options[:constant] || field.to_s.pluralize.upcase
     const_set constant_name, values_array unless const_defined?(constant_name)
     
-    new_hash = {}
-    values_hash.each { |key, text| new_hash[text] = key }
-    (class << self; self; end).send(:define_method, "#{field}_options") { new_hash }
+    (class << self; self; end).send(:define_method, "#{field}_options") do
+      new_hash = {}
+      values_hash.each { |key, text| new_hash[text] = key }
+    end
     
     define_method("#{field}_key") do
       value = send(field)
@@ -58,7 +59,7 @@ module Enumlogic
       end
     end
 
-    validates_inclusion_of field, :in => values_array, :message => options[:message], :allow_nil => options[:allow_nil], :if => options[:if]
+    validates field, :inclusion => {:in => values_array}, :allow_blank => options[:allow_blank]
   end
 
   def enum?(name)

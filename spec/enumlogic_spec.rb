@@ -77,7 +77,7 @@ describe "Enumlogic" do
   end
   
   it "should allow nil during validations" do
-    Computer.enum :kind, ["apple", "dell", "hp"], :allow_nil => true
+    Computer.enum :kind, ["apple", "dell", "hp"], :allow_blank => true
     c = Computer.new
     c.should be_valid
   end

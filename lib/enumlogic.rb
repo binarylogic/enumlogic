@@ -60,7 +60,7 @@ module Enumlogic
       end
     end
 
-    validates field, :inclusion => {:in => values_array}, :allow_blank => options[:allow_blank]
+    validates field, :inclusion => {:in => values_array}, :allow_blank => options[:allow_blank], :if => options[:if]
   end
 
   def enum?(name)

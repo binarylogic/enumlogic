@@ -1,4 +1,5 @@
 require "active_record"
+require "active_support"
 
 # See the enum class level method for more info.
 module Enumlogic
@@ -7,6 +8,7 @@ module Enumlogic
   #   class Computer < ActiveRecord::Base
   #     enum :kind, ["apple", "dell", "hp"]
   #     enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
+  #     enum :kind, [["apple", "Apple"], ["dell", "Dell"], ["hp", "HP"]]
   #   end
   #
   # You can now do the following:
@@ -21,20 +23,29 @@ module Enumlogic
   #   c.kind_text # "apple" or "Apple" if you gave a hash with a user friendly text value
   #   c.enum?(:kind) # true
   def enum(field, values, options = {})
+    values_array = []
     values_hash = if values.is_a?(Array)
-      hash = {}
-      values.each { |value| hash[value] = value }
+      hash = ActiveSupport::OrderedHash.new
+      values.each do |value|
+        # Handle 2 dimensional arrays
+        if value.is_a?(Array)
+          hash[value[0]] = value[1]
+          values_array.push(value[1])
+        else
+          hash[value] = value
+          values_array.push(value)
+        end
+      end
       hash
     else
+      values_array = values.keys
       values
     end
-    
-    values_array = values.is_a?(Hash) ? values.keys : values
     
     constant_name = options[:constant] || field.to_s.pluralize.upcase
     const_set constant_name, values_array unless const_defined?(constant_name)
     
-    new_hash = {}
+    new_hash = ActiveSupport::OrderedHash.new
     values_hash.each do |key,text|
       new_hash[text] = key
     end

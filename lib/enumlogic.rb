@@ -30,7 +30,7 @@ module Enumlogic
         # Handle 2 dimensional arrays
         if value.is_a?(Array)
           hash[value[0]] = value[1]
-          values_array.push(value[1])
+          values_array.push(value[0]) # Store the key
         else
           hash[value] = value
           values_array.push(value)

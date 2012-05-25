@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
      "enumlogic.gemspec",
      "init.rb",
      "lib/enumlogic.rb",
-     "rails/init.rb",
      "spec/enumlogic_spec.rb",
      "spec/spec_helper.rb"
   ]

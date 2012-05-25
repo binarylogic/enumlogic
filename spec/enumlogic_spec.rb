@@ -26,6 +26,11 @@ describe "Enumlogic" do
     Computer.kind_options.should == {"Apple" => "apple", "Dell" => "dell", "HP" => "hp"}
   end
   
+  it "should create class level options method for 2 dimensional arrays" do
+    Computer.enum :kind, [["apple", "Apple"], ["dell", "Dell"], ["hp", "HP"]]
+    Computer.kind_options.should == {"Apple" => "apple", "Dell" => "dell", "HP" => "hp"}
+  end
+  
   it "should create key methods" do
     Computer.enum :kind, ["apple", "dell", "hp"]
     c = Computer.new(:kind => "apple")
@@ -36,6 +41,11 @@ describe "Enumlogic" do
     Computer.enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
     c = Computer.new(:kind => "apple")
     c.kind_key.should == :apple
+  end
+  
+  it "should create ordered hash for arrays" do
+    Computer.enum :kind, ["apple", "dell", "hp"]
+    Computer.kind_options.keys.should == ["apple", "dell", "hp"]
   end
   
   it "should create text methods" do
@@ -77,7 +87,7 @@ describe "Enumlogic" do
   end
   
   it "should allow nil during validations" do
-    Computer.enum :kind, ["apple", "dell", "hp"], :allow_nil => true
+    Computer.enum :kind, ["apple", "dell", "hp"], :allow_blank => true
     c = Computer.new
     c.should be_valid
   end

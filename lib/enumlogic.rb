@@ -1,4 +1,4 @@
-require "activerecord"
+require "active_record"
 
 # See the enum class level method for more info.
 module Enumlogic

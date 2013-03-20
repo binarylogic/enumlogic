@@ -14,7 +14,7 @@ module Enumlogic
   #   Computer::KINDS # passes back the defined enum keys as array
   #   Computer.kind_options # gives you a friendly hash that you can easily pass into the select helper for forms
   #   Computer.new(:kind => "unknown").valid? # false, automatically validates inclusion of the enum field
-  #   
+  #
   #   c = Computer.new(:kind => "apple")
   #   c.apple? # true
   #   c.kind_key # :apple
@@ -28,30 +28,30 @@ module Enumlogic
     else
       values
     end
-    
+
     values_array = values.is_a?(Hash) ? values.keys : values
-    
+
     constant_name = options[:constant] || field.to_s.pluralize.upcase
     const_set constant_name, values_array unless const_defined?(constant_name)
-    
+
     new_hash = {}
     values_hash.each { |key, text| new_hash[text] = key }
     (class << self; self; end).send(:define_method, "#{field}_options") { new_hash }
-    
+
     define_method("#{field}_key") do
       value = send(field)
       return nil if value.nil?
       value.to_s.gsub(/[-\s]/, '_').downcase.to_sym
     end
-    
+
     define_method("#{field}_text") do
       value = send(field)
       return nil if value.nil?
       values_hash[value]
     end
-    
+
     values_array.each do |value|
-      method_name = value.downcase.gsub(/[-\s]/, '_')
+      method_name = value.underscore.gsub(/[-\s]/, '_')
       method_name = "#{method_name}_#{field}" if options[:namespace]
       define_method("#{method_name}?") do
         self.send(field) == value
@@ -65,3 +65,5 @@ module Enumlogic
     method_defined?("#{name}_key")
   end
 end
+
+ActiveRecord::Base.extend(Enumlogic)

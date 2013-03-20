@@ -4,7 +4,7 @@ require 'spec'
 require 'spec/autorun'
 require 'rubygems'
 require 'active_record'
-require "#{File.dirname(__FILE__)}/../init"
+require 'enumlogic'
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 ActiveRecord::Base.configurations = true
@@ -25,7 +25,7 @@ Spec::Runner.configure do |config|
         end
     end
   end
-  
+
   config.after(:each) do
     Object.send(:remove_const, :Computer)
   end

@@ -1,3 +1,8 @@
+== 2.0.0 release 2013-05-13
+
+* Reversed the namespace order: enum :car, ['truck', 'suv'] will now be car_truck? instead of truck_car?
+* Namespacing is now enabled by default, turn it off with enum :car, ['truck', 'suv'], :namespace => false
+
 == 1.0.1 relased 2009-09-01
 
 * Allow nils

@@ -6,6 +6,7 @@ module Enumlogic
   #
   #   class Computer < ActiveRecord::Base
   #     enum :kind, ["apple", "dell", "hp"]
+  #     # or....
   #     enum :kind, {"apple" => "Apple", "dell" => "Dell", "hp" => "HP"}
   #   end
   #
@@ -16,11 +17,13 @@ module Enumlogic
   #   Computer.new(:kind => "unknown").valid? # false, automatically validates inclusion of the enum field
   #
   #   c = Computer.new(:kind => "apple")
-  #   c.apple? # true
+  #   c.kind_apple? # true, or c.apple? if :namespace => false
   #   c.kind_key # :apple
   #   c.kind_text # "apple" or "Apple" if you gave a hash with a user friendly text value
   #   c.enum?(:kind) # true
   def enum(field, values, options = {})
+    namespace = options.key?(:namespace) ? options[:namespace] : true
+
     values_hash = if values.is_a?(Array)
       hash = {}
       values.each { |value| hash[value] = value }
@@ -52,7 +55,7 @@ module Enumlogic
 
     values_array.each do |value|
       method_name = value.underscore.gsub(/[-\s]/, '_')
-      method_name = "#{method_name}_#{field}" if options[:namespace]
+      method_name = "#{field}_#{method_name}" if namespace
       define_method("#{method_name}?") do
         self.send(field) == value
       end
